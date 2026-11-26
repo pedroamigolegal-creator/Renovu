@@ -90,3 +90,14 @@ h1.title{font-size:30px;margin-bottom:10px}
   #loginForm{margin:0;width:100%}
   #loginForm input{flex:1;width:auto}
 }
+
+/* seções da tela de cadastro */
+#forgot{align-self:center;font-size:12px}
+.gender button{width:36px;height:36px;border-radius:50%;padding:0;font-size:20px}
+.info p{max-width:640px;margin:0 auto}
+.shots{display:grid;grid-template-columns:repeat(auto-fit,minmax(200px,1fr));gap:10px;max-width:970px;margin:24px auto 0}
+.shots div{aspect-ratio:16/9;background:#ccc;color:#666;display:flex;align-items:center;justify-content:center}
+.stores,.foot-links{display:flex;flex-wrap:wrap;justify-content:center;gap:10px;margin:20px 0}
+.stores span{background:#222;color:#fff;border-radius:6px;padding:10px 18px}
+.foot-links{gap:24px;font-size:15px;margin-top:0}
+@media(max-width:600px){#loginForm{flex-wrap:wrap}#loginForm input{flex-basis:90px}#forgot{width:100%;text-align:right}}

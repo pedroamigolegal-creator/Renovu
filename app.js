@@ -27,6 +27,8 @@ function enter(name) {
   render();
 }
 
+$("#forgot").onclick = () => alert("Coming soon.");
+
 $("#signupForm").onsubmit = (e) => {
   e.preventDefault();
   const name = $("#suUser").value, pass = $("#suPass").value;
