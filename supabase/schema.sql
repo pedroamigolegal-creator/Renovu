@@ -102,6 +102,12 @@ create policy "profiles: editar o proprio"
   on public.profiles for update to authenticated
   using (auth.uid() = id) with check (auth.uid() = id);
 
+-- Permissões das tabelas (projetos novos do Supabase NÃO liberam isso sozinhos;
+-- sem estes GRANTs aparece "permission denied for table profiles")
+grant usage on schema public to anon, authenticated;
+grant select on public.profiles    to authenticated;
+grant select, insert, update, delete on public.friendships to authenticated;
+
 -- O usuário só pode editar a descrição. Robux, username etc. ficam protegidos.
 revoke update on public.profiles from anon, authenticated;
 grant  update (description) on public.profiles to authenticated;
