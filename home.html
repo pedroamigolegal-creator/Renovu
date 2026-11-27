@@ -1,0 +1,36 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Home - Renovu</title>
+<link rel="icon" href="/favicon.ico" sizes="any">
+<link rel="icon" type="image/png" href="/renovu-icon.png">
+<link rel="apple-touch-icon" href="/apple-touch-icon.png">
+<link href="https://fonts.googleapis.com/css?family=Source+Sans+Pro:300,400,600,700" rel="stylesheet">
+<link rel="stylesheet" href="/assets/css/app.css">
+</head>
+<body data-page="home" class="bg-grey">
+<div id="shell"></div>
+<main class="page">
+  <div class="hello">
+    <span class="avatar-circle big"><img src="/assets/noob/noob-head.png" alt=""></span>
+    <h1 class="title">Hello, <span data-me-name></span>!</h1>
+  </div>
+  <div class="section-head"><h2>Friends (<span id="friend-count">0</span>)</h2><a class="btn-see" href="/soon?p=Friends">See All</a></div>
+  <div class="white-box"><div class="friends-row" id="friends"></div></div>
+  <div class="section-head"><h2>Recently Played</h2><a class="btn-see" href="/games">See All</a></div>
+  <div class="empty-box">No games found.</div>
+  <div class="section-head"><h2>Popular</h2><a class="btn-see" href="/games">See All</a></div>
+  <div class="empty-box">No games found.</div>
+  <div class="section-head"><h2>Friend Activity</h2><a class="btn-see" href="/games">See All</a></div>
+  <div class="empty-box">No games found.</div>
+  <div class="section-head"><h2>My Favorites</h2><a class="btn-see" href="/games">See All</a></div>
+  <div class="empty-box">No games found.</div>
+</main>
+
+<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2.45.4/dist/umd/supabase.min.js"></script>
+<script src="/assets/js/config.js"></script>
+<script src="/assets/js/app.js"></script>
+</body>
+</html>

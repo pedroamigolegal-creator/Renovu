@@ -1,0 +1,4 @@
+"Roblox Noob" by vanyabro85 (https://sketchfab.com/vanyabro85)
+Source: https://sketchfab.com/models/adbbe7953c1b4f678e1ee2f1033fcff1
+Licensed under CC-BY-4.0 (http://creativecommons.org/licenses/by/4.0/)
+The PNG renders in this folder (noob-full.png, noob-head.png, turn/*.png) are derived from this model.

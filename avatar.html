@@ -1,0 +1,56 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Avatar - Renovu</title>
+<link rel="icon" href="/favicon.ico" sizes="any">
+<link rel="icon" type="image/png" href="/renovu-icon.png">
+<link rel="apple-touch-icon" href="/apple-touch-icon.png">
+<link href="https://fonts.googleapis.com/css?family=Source+Sans+Pro:300,400,600,700" rel="stylesheet">
+<link rel="stylesheet" href="/assets/css/app.css">
+</head>
+<body data-page="avatar" class="bg-grey">
+<div id="shell"></div>
+<main class="page">
+  <div class="av-head">
+    <h1>Avatar Editor</h1>
+    <span class="hint">Explore the catalog to find more clothes! &nbsp;<a class="btn-green-flat" href="/catalog">Get More</a></span>
+  </div>
+  <div class="av-layout">
+    <div class="av-left">
+      <div class="av-preview" id="av-preview">
+        <div class="rig"><span class="on">R6</span><span>R15</span></div>
+        <img id="av-img" src="/assets/noob/noob-full.png" alt="Your avatar">
+        <button class="btn-adj" type="button">Adjust</button>
+        <button class="btn-3d" id="av-3d" type="button">3D</button>
+      </div>
+      <div class="scaling">
+        <h2>Scaling</h2>
+        <div class="slider-row"><span>Height</span><span>100%</span></div><div class="slider"><i style="left:60%"></i></div>
+        <div class="slider-row"><span>Width</span><span>100%</span></div><div class="slider"><i style="left:94%"></i></div>
+        <div class="slider-row"><span>Head</span><span>100%</span></div><div class="slider"><i style="left:94%"></i></div>
+        <div class="slider-row"><span>Proportion</span><span>0%</span></div><div class="slider"><i style="left:0"></i></div>
+        <div class="slider-row"><span>Body Type</span><span>0%</span></div><div class="slider" style="margin-bottom:8px"><i style="left:0"></i></div>
+      </div>
+      <div class="av-actions">
+        <div class="row"><span>Avatar isn't updated?</span><button class="btn-lite" id="av-refetch" type="button">Refetch</button></div>
+        <div class="row"><span>Avatar isn't loading correctly?<br>Change your profile picture?</span><span style="display:flex;flex-direction:column;gap:6px"><button class="btn-lite" id="av-redraw" type="button">Redraw</button><a class="btn-lite" href="/home" style="text-align:center;line-height:24px;text-decoration:none">Edit</a></span></div>
+      </div>
+    </div>
+    <div class="av-right">
+      <div class="av-tabs">
+        <button class="active" type="button">Recent</button><button type="button">Clothing</button><button type="button">Body</button><button type="button">Animations</button><button type="button">Outfits</button>
+      </div>
+      <div class="crumbs small" id="av-crumb" style="margin-top:8px">Recent &gt; All</div>
+      <div class="av-items"><p>You don't have any items yet.</p></div>
+    </div>
+  </div>
+  <p class="credit">3D model &ldquo;Roblox Noob&rdquo; by <a href="https://sketchfab.com/vanyabro85" target="_blank" rel="noopener">vanyabro85</a>, licensed <a href="http://creativecommons.org/licenses/by/4.0/" target="_blank" rel="noopener">CC-BY-4.0</a>.</p>
+</main>
+
+<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2.45.4/dist/umd/supabase.min.js"></script>
+<script src="/assets/js/config.js"></script>
+<script src="/assets/js/app.js"></script>
+</body>
+</html>

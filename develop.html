@@ -1,0 +1,40 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Create - Renovu</title>
+<link rel="icon" href="/favicon.ico" sizes="any">
+<link rel="icon" type="image/png" href="/renovu-icon.png">
+<link rel="apple-touch-icon" href="/apple-touch-icon.png">
+<link href="https://fonts.googleapis.com/css?family=Source+Sans+Pro:300,400,600,700" rel="stylesheet">
+<link rel="stylesheet" href="/assets/css/app.css">
+</head>
+<body data-page="develop">
+<div id="shell"></div>
+<main class="page">
+  <div class="tabs">
+    <button class="active">My Creations</button><button>Group Creations</button><button>Library</button><button>Stats</button>
+  </div>
+  <div class="dev-layout">
+    <nav class="dev-menu"><a href="#" class="active">Games</a><a href="#">Places</a><a href="#">Models</a><a href="#">Decals</a><a href="#">Images</a><a href="#">Badges</a><a href="#">Game Passes</a><a href="#">Videos</a><a href="#">Audio</a><a href="#">Animations</a><a href="#">Meshes</a><a href="#">Mesh Parts</a><a href="#">User Ads</a><a href="#">Sponsored Games</a><a href="#">Shirts</a><a href="#">T-Shirts</a><a href="#">Pants</a><a href="#">Plugins</a></nav>
+    <section class="dev-main">
+      <a class="btn-green" id="dev-create" href="#">Create New Game</a>
+      <h2 id="dev-title">Games</h2>
+      <div id="dev-list">
+        <div class="place-row">
+          <div class="thumb"><svg viewBox="0 0 24 24"><rect x="4" y="3" width="16" height="18" rx="1.5"/><path d="M8 8h5M8 12h5M8 16h3"/></svg></div>
+          <div class="info"><a href="#"><span data-me-name></span>'s Place</a><br><b>Start Place:</b> <a href="#"><span data-me-name></span>'s Place</a><br><a href="#">Public</a></div>
+          <button class="gear-btn" aria-label="Options">&#9881; &#9662;</button>
+        </div>
+      </div>
+      <div id="dev-empty" class="empty-plain" hidden>Nothing here yet.</div>
+    </section>
+  </div>
+</main>
+
+<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2.45.4/dist/umd/supabase.min.js"></script>
+<script src="/assets/js/config.js"></script>
+<script src="/assets/js/app.js"></script>
+</body>
+</html>

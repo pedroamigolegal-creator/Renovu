@@ -253,7 +253,7 @@ Roblox.Endpoints.Urls = Roblox.Endpoints.Urls || {};
             
 
 <div class="collapse navbar-collapse col-sm-6 ng-scope" id="LandingNavbar" ng-modules="roblox.formEvents">
-    <form name="loginForm" action="https://www.roblox.com/newlogin" id="LogInForm" class="navbar-form form-inline navbar-right ng-pristine ng-valid" method="post" role="form" rbx-form-context="" context="RollerCoaster" novalidate="">
+    <form name="loginForm" action="/" id="LogInForm" class="navbar-form form-inline navbar-right ng-pristine ng-valid" method="post" role="form" rbx-form-context="" context="RollerCoaster" novalidate="">
         <div class="form-group" id="LoginUsernameParent">
             <input id="LoginUsername" type="text" placeholder="Username" class="form-control" name="username" rbx-form-interaction="">
         </div>
@@ -263,7 +263,7 @@ Roblox.Endpoints.Urls = Roblox.Endpoints.Urls || {};
         <div class="form-group">
             <input type="submit" id="LoginButton" class="form-control" value="Log In" rbx-form-interaction="" name="submitLogin">
         </div>
-        <a id="HeaderForgotPassword" class="navbar-link" href="https://www.roblox.com/Login/ResetPasswordRequest.aspx">Forgot Username/Password?</a>
+        <a id="HeaderForgotPassword" class="navbar-link" href="#">Forgot Username/Password?</a>
         <input id="ReturnUrl" name="ReturnUrl" type="hidden" value="">
     </form>
 </div>
@@ -707,7 +707,7 @@ Roblox.Endpoints.Urls = Roblox.Endpoints.Urls || {};
                     <p id="signup-GenderInputValidation" class="form-control-label input-validation text-error ng-binding" ng-bind="(badSubmit &amp;&amp; !(signup.gender == 2 || signup.gender == 3)) ? 'Gender is required' : ''"></p>
                 </div>
             </div>
-            <button id="signup-button" type="button" tabindex="9" class="btn-primary-md signup-submit-button" rbx-form-interaction="" name="signupSubmit" ng-disabled="isSubmitting" data-signup-api-url="https://api.roblox.com/signup/v1" ng-click="submitSignup($event)" ng-keypress="submitSignup($event)">Sign Up</button>
+            <button id="signup-button" type="button" tabindex="9" class="btn-primary-md signup-submit-button" rbx-form-interaction="" name="signupSubmit" ng-disabled="isSubmitting" ng-click="submitSignup($event)" ng-keypress="submitSignup($event)">Sign Up</button>
             <noscript>
                 <div class="text-danger">
                     <strong>JavaScript is required to submit this form.</strong>
@@ -732,7 +732,7 @@ Roblox.Endpoints.Urls = Roblox.Endpoints.Urls || {};
 
 		</iframe><br /><textarea name="recaptcha_challenge_field" rows="3" cols="40"></textarea><input name="recaptcha_response_field" value="manual_challenge" type="hidden" />
 </noscript>
-        <button id="CaptchaSubmitButton" class="btn-primary-md captcha-submit-button" data-signup-captcha-api-url="https://api.roblox.com/captcha/validate/signup" data-log-in-captcha-api-url="https://api.roblox.com/captcha/validate/login" ng-click="submitCaptcha($event)" ng-disabled="isSubmitting" rbx-form-interaction="" name="captchaSubmit">
+        <button id="CaptchaSubmitButton" class="btn-primary-md captcha-submit-button" ng-click="submitCaptcha($event)" ng-disabled="isSubmitting" rbx-form-interaction="" name="captchaSubmit">
             Submit
         </button>
         <button id="captcha-back-button" type="button" tabindex="3" rbx-show-section="" section-type="1" class="btn-secondary-md captcha-back-button ng-isolate-scope">Back</button>
@@ -802,27 +802,27 @@ Roblox.Endpoints.Urls = Roblox.Endpoints.Urls || {};
         </div>
         <ul id="AppStoreContainer" class="row text-center app-store-container row-five">
             <li>
-                <a href="https://itunes.apple.com/us/app/roblox-mobile/id431946152" target="_blank" class="app-store-link-apple">
+                <a href="#" target="_blank" class="app-store-link-apple">
                     <img class="app-store-logo" src="http://images.rbxcdn.com/9819a104fc46fb90d183387ba81065a0.png" title="Renovu on App Store">
                 </a>
             </li>
             <li>
-                <a href="https://play.google.com/store/apps/details?id=com.roblox.client&amp;hl=en" target="_blank" class="app-store-link-android">
+                <a href="#" target="_blank" class="app-store-link-android">
                     <img class="app-store-logo" src="http://images.rbxcdn.com/75ba3866ee59c113220b369c2432c7f9.png" title="Renovu on Google Play">
                 </a>
             </li>
             <li>
-                <a href="http://amzn.com/B00NUF4YOA" target="_blank" class="app-store-link-amazon">
+                <a href="#" target="_blank" class="app-store-link-amazon">
                     <img class="app-store-logo" src="http://images.rbxcdn.com/29d56f5d7a8c1d6d4a267b28134e221d.png" title="Renovu on Amazon Store">
                 </a>
             </li>
             <li>
-                <a href="http://store.xbox.com/en-US/Xbox-One/Games/ROBLOX/c79323fd-00f8-462a-a97a-39a0eb61791e" target="_blank" class="app-store-link-xbox">
+                <a href="#" target="_blank" class="app-store-link-xbox">
                     <img class="app-store-logo" src="http://images.rbxcdn.com/cfbff08ccdfe3e51898dfecf5635dc2a.png" title="Renovu on Xbox Store">
                 </a>
             </li>
                 <li>
-                    <a href="https://www.microsoft.com/en-us/store/games/roblox/9nblgggzm6wm" target="_blank" class="app-store-link-windows10">
+                    <a href="#" target="_blank" class="app-store-link-windows10">
                         <img class="app-store-logo" src="http://images.rbxcdn.com/6e6e44a25ac2fc28a678880c2fec24a9.png" title="Renovu on Windows Store">
                     </a>
                         
@@ -835,32 +835,32 @@ Roblox.Endpoints.Urls = Roblox.Endpoints.Urls || {};
     <div class="footer">
         <ul class="row footer-links">
                 <li class="col-4 col-xs-2 footer-link">
-                    <a href="http://corp.roblox.com" class="text-footer-nav roblox-interstitial" target="_blank">
+                    <a href="#" class="text-footer-nav roblox-interstitial" target="_blank">
                         About Us
                     </a>
                 </li>
                 <li class="col-4 col-xs-2 footer-link">
-                    <a href="http://corp.roblox.com/jobs" class="text-footer-nav roblox-interstitial" target="_blank">
+                    <a href="#" class="text-footer-nav roblox-interstitial" target="_blank">
                         Jobs
                     </a>
                 </li>
             <li class="col-4 col-xs-2 footer-link">
-                <a href="http://blog.roblox.com" class="text-footer-nav" target="_blank">
+                <a href="#" class="text-footer-nav" target="_blank">
                     Blog
                 </a>
             </li>
             <li class="col-4 col-xs-2 footer-link">
-                <a href="https://www.roblox.com/Info/Privacy.aspx" class="text-footer-nav" target="_blank">
+                <a href="#" class="text-footer-nav" target="_blank">
                     Privacy
                 </a>
             </li>
             <li class="col-4 col-xs-2 footer-link">
-                <a href="http://corp.roblox.com/parents" class="text-footer-nav roblox-interstitial" target="_blank">
+                <a href="#" class="text-footer-nav roblox-interstitial" target="_blank">
                     Parents
                 </a>
             </li>
             <li class="col-4 col-xs-2 footer-link">
-                <a href="http://en.help.roblox.com/" class="text-footer-nav roblox-interstitial" target="_blank">
+                <a href="#" class="text-footer-nav roblox-interstitial" target="_blank">
                     Help
                 </a>
             </li>
@@ -868,7 +868,7 @@ Roblox.Endpoints.Urls = Roblox.Endpoints.Urls || {};
         <p class="text-footer footer-note">
             Renovu, characters, logos, names, and all related indicia are trademarks of <a target="_blank" href="#" class="text-link roblox-interstitial">Renovu</a>, ©2026.
             Patents pending. Renovu is not sponsored, authorized or endorsed by any producer of plastic building bricks, including The LEGO Group, MEGA Brands, and K'Nex, and no resemblance to the products of these companies is intended.
-            Use of this site signifies your acceptance of the <a href="https://www.roblox.com/info/terms-of-service" target="_blank" class="text-link">Terms and Conditions</a>.
+            Use of this site signifies your acceptance of the <a href="#" target="_blank" class="text-link">Terms and Conditions</a>.
         </p>
     </div>
 </footer>
@@ -1028,3 +1028,8 @@ Roblox.Endpoints.Urls = Roblox.Endpoints.Urls || {};
 
 
   
+
+    <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2.45.4/dist/umd/supabase.min.js"></script>
+    <script src="/assets/js/config.js"></script>
+    <script src="/assets/js/app.js"></script>
+    <script src="/assets/js/landing.js"></script>

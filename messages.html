@@ -1,0 +1,28 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Messages - Renovu</title>
+<link rel="icon" href="/favicon.ico" sizes="any">
+<link rel="icon" type="image/png" href="/renovu-icon.png">
+<link rel="apple-touch-icon" href="/apple-touch-icon.png">
+<link href="https://fonts.googleapis.com/css?family=Source+Sans+Pro:300,400,600,700" rel="stylesheet">
+<link rel="stylesheet" href="/assets/css/app.css">
+</head>
+<body data-page="messages">
+<div id="shell"></div>
+<main class="page">
+  <div class="tabs">
+    <button class="active" data-name="messages">Inbox</button><button data-name="sent messages">Sent</button><button data-name="notifications">Notifications</button><button data-name="archived messages">Archive</button>
+  </div>
+  <div class="msg-tools"><input type="checkbox" aria-label="Select all"><button class="btn-soft" type="button">Archive</button><button class="btn-soft" type="button">Mark as Read</button><button class="btn-soft" type="button">Mark as Unread</button></div>
+  <div class="pager"><button type="button" aria-label="Previous">&#9664;</button><span>Page 1 of 1</span><button type="button" aria-label="Next">&#9654;</button></div>
+  <div class="empty-plain" id="msg-empty">No messages.</div>
+</main>
+
+<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2.45.4/dist/umd/supabase.min.js"></script>
+<script src="/assets/js/config.js"></script>
+<script src="/assets/js/app.js"></script>
+</body>
+</html>

@@ -1,0 +1,58 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Catalog - Renovu</title>
+<link rel="icon" href="/favicon.ico" sizes="any">
+<link rel="icon" type="image/png" href="/renovu-icon.png">
+<link rel="apple-touch-icon" href="/apple-touch-icon.png">
+<link href="https://fonts.googleapis.com/css?family=Source+Sans+Pro:300,400,600,700" rel="stylesheet">
+<link rel="stylesheet" href="/assets/css/app.css">
+</head>
+<body data-page="catalog">
+<div id="shell"></div>
+<main class="page">
+  <div class="catalog-head">
+    <h1>Catalog</h1>
+    <form class="catalog-search" action="/catalog" method="get">
+      <input type="text" id="cat-q" name="q" placeholder="Search" autocomplete="off">
+      <select name="c" aria-label="Category"><option>Featured</option><option>All Items</option><option>Collectibles</option><option>Clothing</option><option>Body Parts</option><option>Gear</option><option>Accessories</option></select>
+      <button type="submit" aria-label="Search"><svg viewBox="0 0 24 24"><circle cx="11" cy="11" r="6.5"/><path d="M20 20l-4.2-4.2"/></svg></button>
+    </form>
+  </div>
+  <div class="catalog-layout">
+    <aside class="cat-side">
+      <h3>Category</h3>
+      <a class="plain" href="/catalog">View All Items</a>
+      <a class="sel" href="/catalog">Featured</a>
+      <a class="sub" href="/catalog">All Featured Items</a>
+      <a class="sub plain" href="/catalog">Featured Accessories</a>
+      <a class="sub plain" href="/catalog">Featured Animations</a>
+      <a class="sub plain" href="/catalog">Featured Faces</a>
+      <a class="sub plain" href="/catalog">Featured Gear</a>
+      <a class="sub plain" href="/catalog">Featured Packages</a>
+      <a class="sub plain" href="/catalog">Featured Emotes</a>
+      <a class="plain plus" href="/catalog">Collectibles</a>
+      <a class="plain plus" href="/catalog">UGC</a>
+      <a class="plain plus" href="/catalog">Clothing</a>
+      <a class="plain plus" href="/catalog">Body Parts</a>
+      <a class="plain plus" href="/catalog">Gear</a>
+      <a class="plain plus" href="/catalog">Accessories</a>
+      <a class="plain plus" href="/catalog">Avatar Animations</a>
+      <a class="plain" href="/catalog">Emotes</a>
+    </aside>
+    <section class="cat-main">
+      <div class="crumbs">Featured &gt; All</div>
+      <div class="small">0 Results</div>
+      <div class="sort"><select aria-label="Sort"><option>Relevance</option><option>Price (Low to High)</option><option>Price (High to Low)</option><option>Recently Updated</option><option>Best Selling</option></select></div>
+      <div class="empty-plain">No items found.</div>
+    </section>
+  </div>
+</main>
+
+<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2.45.4/dist/umd/supabase.min.js"></script>
+<script src="/assets/js/config.js"></script>
+<script src="/assets/js/app.js"></script>
+</body>
+</html>
