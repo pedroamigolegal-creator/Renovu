@@ -31,6 +31,14 @@
     if (m < 0 || (m === 0 && n.getDate() < d.getDate())) age--;
     return age >= 13 ? '13+' : '<13';
   };
+  // Cartão da página 404 (usado quando um perfil/página não existe)
+  R.notFoundHtml = function () {
+    return '<div class="nf-card"><div class="nf-text">' +
+      '<h1>Page cannot be found or no longer exists</h1>' +
+      '<p class="nf-code">404 <span>|</span> Page Not found</p>' +
+      '<div class="nf-actions"><a class="nf-btn dark" href="/home" id="nf-back">Back</a><a class="nf-btn light" href="/home">Home</a></div>' +
+      '</div><div class="nf-art"><img src="/assets/img/404.png" alt=""></div></div>';
+  };
   R.signOut = function () {
     var done = function () { location.replace('/'); };
     if (!client) return done();
@@ -166,39 +174,48 @@
     }).catch(function (e) { fatal('Something went wrong: ' + (e && e.message || e)); });
   };
 
-  /* ---------------------- avatar: imagem + giro 3D -------------------- */
-  var FRAMES = 24;
-  function frameSrc(i) { return '/assets/noob/turn/' + (i < 10 ? '0' : '') + i + '.png'; }
-  // Liga o botão "3D": gira sozinho e dá pra arrastar para virar o boneco.
+  /* ------------------ avatar: imagem parada + 3D de verdade ----------- */
+  // O botão "3D" troca a imagem pelo modelo (WebGL) NA MESMA POSE. Ele fica parado
+  // e só gira quando você arrasta. Desligar o 3D volta para a imagem parada.
+  var DRAG_SPEED = 0.45;   // graus por pixel arrastado (menor = mais lento)
   R.mountViewer = function (box, btn) {
-    var img = $('img', box), still = img.getAttribute('src');
-    var idx = 0, timer = null, on = false, drag = false, lastX = 0, acc = 0, loaded = false;
-    function show(i) { idx = ((i % FRAMES) + FRAMES) % FRAMES; img.src = frameSrc(idx); }
-    function preload() {
-      if (loaded) return; loaded = true;
-      for (var i = 0; i < FRAMES; i++) { (new Image()).src = frameSrc(i); }
-    }
-    function start() {
-      on = true; preload(); btn.classList.add('active'); box.classList.add('is-3d');
-      timer = setInterval(function () { if (!drag) show(idx + 1); }, 90);
-    }
+    var img = $('img', box), canvas = null, viewer = null, on = false, drag = false, lastX = 0;
+
     function stop() {
-      on = false; clearInterval(timer); btn.classList.remove('active'); box.classList.remove('is-3d');
-      img.src = still;
+      on = false; drag = false;
+      btn.classList.remove('active'); box.classList.remove('is-3d');
+      if (viewer) { viewer.destroy(); viewer = null; }
+      if (canvas) { canvas.remove(); canvas = null; }
+      img.style.visibility = '';
     }
+
+    function start() {
+      if (!window.Noob3D) return;
+      on = true; btn.classList.add('active'); box.classList.add('is-3d');
+      canvas = document.createElement('canvas');
+      canvas.className = 'noob-canvas';
+      box.appendChild(canvas);
+      // mesmo enquadramento da imagem parada (ela ocupa só parte da caixa)
+      var k = box.clientHeight / (img.clientHeight || box.clientHeight);
+      viewer = window.Noob3D.create(canvas, { heightScale: k });
+      if (!viewer) { stop(); return; }
+      viewer.ready.then(function () { if (on) img.style.visibility = 'hidden'; }, stop);
+
+      canvas.addEventListener('pointerdown', function (e) {
+        drag = true; lastX = e.clientX;
+        try { canvas.setPointerCapture(e.pointerId); } catch (x) {}
+      });
+      canvas.addEventListener('pointermove', function (e) {
+        if (!drag || !viewer) return;
+        viewer.setYaw(viewer.getYaw() + (e.clientX - lastX) * DRAG_SPEED);
+        lastX = e.clientX;
+      });
+      function up() { drag = false; }
+      canvas.addEventListener('pointerup', up);
+      canvas.addEventListener('pointercancel', up);
+    }
+
     btn.addEventListener('click', function () { on ? stop() : start(); });
-    img.addEventListener('pointerdown', function (e) {
-      if (!on) return; drag = true; lastX = e.clientX; acc = 0;
-      try { img.setPointerCapture(e.pointerId); } catch (x) {}
-    });
-    img.addEventListener('pointermove', function (e) {
-      if (!drag) return;
-      acc += e.clientX - lastX; lastX = e.clientX;
-      var step = Math.trunc(acc / 10);
-      if (step) { show(idx - step); acc -= step * 10; }
-    });
-    function up() { drag = false; }
-    img.addEventListener('pointerup', up); img.addEventListener('pointercancel', up);
     img.addEventListener('dragstart', function (e) { e.preventDefault(); });
   };
 
@@ -258,11 +275,16 @@
 
   pages.users = function (me) {
     var m = location.pathname.match(/\/users\/(\d+)/);
-    var number = m ? Number(m[1]) : (Number(new URLSearchParams(location.search).get('id')) || me.user_number);
+    var number = m ? Number(m[1]) : (/^\/users\//.test(location.pathname) ? 0 : (Number(new URLSearchParams(location.search).get('id')) || me.user_number));
     var root = $('#profile');
     client.from('profiles').select('*').eq('user_number', number).maybeSingle().then(function (r) {
       if (r.error || !r.data) {
-        root.innerHTML = '<div class="white-box" style="margin-top:20px"><p>This user does not exist.</p></div>';
+        document.body.classList.remove('bg-profile'); document.body.classList.add('bg-white');
+        document.title = 'Page Not Found - Renovu';
+        root.className = 'nf-wrap';
+        root.innerHTML = R.notFoundHtml();
+        var back = $('#nf-back');
+        if (back) back.addEventListener('click', function (e) { if (history.length > 1) { e.preventDefault(); history.back(); } });
         return;
       }
       var p = r.data, mine = p.id === me.id;

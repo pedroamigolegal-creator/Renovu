@@ -1,0 +1,44 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Page Not Found - Renovu</title>
+<link rel="icon" href="/favicon.ico" sizes="any">
+<link rel="icon" type="image/png" href="/renovu-icon.png">
+<link rel="apple-touch-icon" href="/apple-touch-icon.png">
+<link href="https://fonts.googleapis.com/css?family=Source+Sans+Pro:300,400,600,700" rel="stylesheet">
+<link rel="stylesheet" href="/assets/css/app.css">
+</head>
+<body class="ready bg-white">
+<header class="topbar">
+  <div class="topbar-row">
+    <a class="logo" href="/home" aria-label="Renovu"><img src="/assets/img/icon-96.png" alt="Renovu"></a>
+    <div style="flex:1"></div>
+    <a href="/" style="color:#fff;font-size:15px">Log In</a>
+  </div>
+  <nav class="mainnav">
+    <a href="/games">Games</a><a href="/catalog">Catalog</a><a href="/develop">Create</a><a href="/soon?p=Download">Download</a>
+  </nav>
+</header>
+<main class="nf-wrap">
+  <div class="nf-card">
+    <div class="nf-text">
+      <h1>Page cannot be found or no longer exists</h1>
+      <p class="nf-code">404 <span>|</span> Page Not found</p>
+      <div class="nf-actions">
+        <a class="nf-btn dark" href="/home" id="nf-back">Back</a>
+        <a class="nf-btn light" href="/home">Home</a>
+      </div>
+    </div>
+    <div class="nf-art"><img src="/assets/img/404.png" alt=""></div>
+  </div>
+</main>
+<footer class="nf-foot">&copy;2026 Renovu.</footer>
+<script>
+document.getElementById('nf-back').addEventListener('click', function (e) {
+  if (history.length > 1) { e.preventDefault(); history.back(); }
+});
+</script>
+</body>
+</html>

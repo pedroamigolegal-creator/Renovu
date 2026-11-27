@@ -260,3 +260,33 @@ body:not(.bg-grey) .empty-box { background: #e3e3e3; color: #888; }
   .stat { font-size: 15px; }
   .btn-soft { padding: 0 9px; font-size: 14px; }
 }
+
+/* ------------------------- 3D do noob (WebGL) ------------------------ */
+.noob-canvas { position: absolute; left: 0; top: 0; width: 100%; height: 100%; display: block; z-index: 1; cursor: grab; touch-action: pan-y; }
+.noob-canvas:active { cursor: grabbing; }
+.viewer .btn-3d, .av-preview .btn-3d, .av-preview .btn-adj, .av-preview .rig { z-index: 2; }
+
+/* ------------------------------ Página 404 --------------------------- */
+body.bg-white { background: #fff; }
+.nf-wrap { max-width: 640px; margin: 0 auto; padding: 36px 16px 0; }
+.nf-card { display: flex; align-items: center; justify-content: space-between; gap: 18px; padding: 30px 28px 26px; background: #fff; }
+.nf-text { flex: 1 1 52%; min-width: 0; }
+.nf-text h1 { margin: 0 0 14px; font-size: 27px; font-weight: 400; line-height: 1.25; color: #393b3d; }
+.nf-text .nf-code { margin: 0 0 40px; font-size: 14px; color: #8a8d90; }
+.nf-text .nf-code span { margin: 0 4px; }
+.nf-actions { display: flex; gap: 10px; flex-wrap: wrap; }
+.nf-btn { display: inline-block; height: 32px; line-height: 30px; padding: 0 16px; border-radius: 4px; font-size: 14px; font-weight: 600; cursor: pointer; text-decoration: none; }
+.nf-btn:hover { text-decoration: none; }
+.nf-btn.dark { background: #393b3d; border: 1px solid #393b3d; color: #fff; }
+.nf-btn.dark:hover { background: #232527; }
+.nf-btn.light { background: #fff; border: 1px solid #bdbebe; color: #393b3d; }
+.nf-btn.light:hover { background: #f2f4f5; }
+.nf-art { flex: 0 1 40%; display: flex; justify-content: center; }
+.nf-art img { width: 100%; max-width: 230px; height: auto; display: block; }
+.nf-foot { text-align: center; color: #8a8d90; font-size: 12px; padding: 36px 16px 30px; }
+@media (max-width: 460px) {
+  .nf-wrap { padding-top: 20px; }
+  .nf-card { padding: 18px 6px; gap: 10px; }
+  .nf-text h1 { font-size: 23px; }
+  .nf-text .nf-code { margin-bottom: 26px; }
+}
