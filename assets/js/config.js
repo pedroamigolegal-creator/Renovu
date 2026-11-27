@@ -7,11 +7,11 @@
    NUNCA coloque a chave "service_role" aqui.
 ------------------------------------------------------------------- */
 window.RENOVU_CONFIG = {
-  SUPABASE_URL: 'YOUR_SUPABASE_URL',
-  SUPABASE_ANON_KEY: 'YOUR_SUPABASE_ANON_KEY',
+  SUPABASE_URL: 'https://vgfxkxvuhicqyjyzduyi.supabase.co',
+  SUPABASE_ANON_KEY: 'sb_publishable_U2kWWGIBA5XzbLKukIfqcQ_8rHWA6EV',
 
   // O cadastro pede só username + senha, mas o Supabase exige um e-mail.
   // Por baixo dos panos o login usa  username@EMAIL_DOMAIN  (nunca é mostrado).
-  // Coloque o seu domínio da Vercel (sem "www").
+  // Não precisa ser um domínio real nem receber e-mail: serve só de identificador.
   EMAIL_DOMAIN: 'renovu.app'
 };
