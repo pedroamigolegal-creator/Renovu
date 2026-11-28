@@ -52,9 +52,10 @@
   var ICON = {
     menu: '<path d="M3 6h18M3 12h18M3 18h18"/>',
     search: '<circle cx="11" cy="11" r="6.5"/><path d="M20 20l-4.2-4.2"/>',
-    messages: '<rect x="3" y="4" width="18" height="16" rx="2"/><path d="M7 9h10M7 13h10M7 17h6"/>',
-    robux: '<circle cx="12" cy="12" r="9.5"/><text x="12" y="15.6" text-anchor="middle" font-size="9.5" font-weight="700" fill="currentColor" stroke="none" font-family="Arial,sans-serif">R$</text>',
-    upgrade: '<path d="M12 2.8l9.2 9.2-9.2 9.2L2.8 12z"/><path d="M12 8v8M8.5 11.5L12 8l3.5 3.5"/>',
+    messages: '<rect x="3" y="3.5" width="18" height="17" rx="3.5"/><path d="M6.8 8h10.4M6.8 11.3h10.4M6.8 14.6h10.4M6.8 17.9h10.4" stroke-width="1.7"/>',
+    inbox: '<rect x="3" y="4" width="18" height="16" rx="2"/><path d="M7 9h10M7 13h10M7 17h6"/>',
+    robux: '<circle cx="12" cy="12" r="10"/><text x="12" y="15.9" text-anchor="middle" font-size="10.5" font-weight="800" fill="currentColor" stroke="currentColor" stroke-width=".45" stroke-linejoin="round" textLength="12.5" lengthAdjust="spacingAndGlyphs" font-family="Arial,sans-serif">R$</text>',
+    tix: '<g transform="rotate(-38 12 12)"><path d="M3.2 7.2h17.6v3.1a1.9 1.9 0 0 0 0 3.8v3.1H3.2v-3.1a1.9 1.9 0 0 0 0-3.8z"/><text x="12" y="15.4" text-anchor="middle" font-size="10" font-weight="800" fill="currentColor" stroke="currentColor" stroke-width=".4" font-family="Arial,sans-serif">T</text></g>',
     gear: '<circle cx="12" cy="12" r="3"/><path d="M19.4 15a1.65 1.65 0 0 0 .33 1.82l.06.06a2 2 0 0 1 0 2.83 2 2 0 0 1-2.83 0l-.06-.06a1.65 1.65 0 0 0-1.82-.33 1.65 1.65 0 0 0-1 1.51V21a2 2 0 0 1-2 2 2 2 0 0 1-2-2v-.09A1.65 1.65 0 0 0 9 19.4a1.65 1.65 0 0 0-1.82.33l-.06.06a2 2 0 0 1-2.83 0 2 2 0 0 1 0-2.83l.06-.06a1.65 1.65 0 0 0 .33-1.82 1.65 1.65 0 0 0-1.51-1H3a2 2 0 0 1-2-2 2 2 0 0 1 2-2h.09A1.65 1.65 0 0 0 4.6 9a1.65 1.65 0 0 0-.33-1.82l-.06-.06a2 2 0 0 1 0-2.83 2 2 0 0 1 2.83 0l.06.06a1.65 1.65 0 0 0 1.82.33H9a1.65 1.65 0 0 0 1-1.51V3a2 2 0 0 1 2-2 2 2 0 0 1 2 2v.09a1.65 1.65 0 0 0 1 1.51 1.65 1.65 0 0 0 1.82-.33l.06-.06a2 2 0 0 1 2.83 0 2 2 0 0 1 0 2.83l-.06.06a1.65 1.65 0 0 0-.33 1.82V9a1.65 1.65 0 0 0 1.51 1H21a2 2 0 0 1 2 2 2 2 0 0 1-2 2h-.09a1.65 1.65 0 0 0-1.51 1z"/>',
     home: '<path d="M3 10.5L12 3l9 7.5V21h-6v-6H9v6H3z"/>',
     profile: '<circle cx="12" cy="8" r="4"/><path d="M4 21c0-4 4-6 8-6s8 2 8 6"/>',
@@ -73,6 +74,14 @@
   R.icon = svg;
 
   /* ------------------------------ shell ------------------------------- */
+  // "Show Tix in Navbar" (Settings > Account Info). Padrão: ligado.
+  function showTix(me) {
+    var st = me && me.settings && typeof me.settings === 'object' ? me.settings : {};
+    if (typeof st.show_tix === 'boolean') return st.show_tix;
+    try { var v = localStorage.getItem('renovu_show_tix'); if (v !== null) return v === '1'; } catch (e) {}
+    return true;
+  }
+  R.showTix = showTix;
   function buildShell(me) {
     var page = document.body.getAttribute('data-page') || '';
     var navActive = { games: 'games', catalog: 'catalog', develop: 'develop' }[page] || '';
@@ -89,12 +98,14 @@
           '<div class="topbar-right">' +
             '<span class="who">' + uname + ': <small>' + R.ageLabel(me.birthday) + '</small></span>' +
             '<a class="icon-btn" href="/messages" title="Messages" aria-label="Messages">' + svg('messages') + '<span class="badge" id="msg-badge" hidden></span></a>' +
-            '<a class="icon-btn hide-xs" href="/soon?p=Robux" title="' + Number(me.robux || 0).toLocaleString() + ' R$" aria-label="Robux">' + svg('robux') + '</a>' +
-            '<a class="icon-btn hide-xs" href="/soon?p=Upgrade" title="Upgrade" aria-label="Upgrade">' + svg('upgrade') + '</a>' +
+            '<span class="pop-wrap"><button type="button" class="icon-btn" id="btn-robux" aria-label="Robux" aria-haspopup="true">' + svg('robux') + '</button>' +
+              '<div class="pop" id="pop-robux" role="status" hidden>' + Number(me.robux || 0).toLocaleString() + ' Robux</div></span>' +
+            '<span class="pop-wrap" id="wrap-tix"' + (showTix(me) ? '' : ' hidden') + '><button type="button" class="icon-btn" id="btn-tix" aria-label="Tix" aria-haspopup="true">' + svg('tix') + '</button>' +
+              '<div class="pop" id="pop-tix" role="status" hidden>' + Number(me.tix || 0).toLocaleString() + ' Tix</div></span>' +
             '<button class="icon-btn" id="btn-gear" aria-label="Settings" aria-haspopup="true">' + svg('gear') + '</button>' +
           '</div>' +
           '<div class="menu" id="gear-menu" hidden>' +
-            '<a href="/soon?p=Settings">Settings</a>' +
+            '<a href="/my/account">Settings</a>' +
             '<button type="button" id="btn-logout">Logout</button>' +
           '</div>' +
         '</div>' +
@@ -110,7 +121,7 @@
         '<div class="s-name">' + uname + '</div>' +
         link('/home', 'home', 'Home') +
         link('/users/' + me.user_number, 'profile', 'Profile') +
-        link('/messages', 'messages', 'Messages') +
+        link('/messages', 'inbox', 'Messages') +
         link('/soon?p=Friends', 'friends', 'Friends') +
         link('/avatar', 'avatar', 'Avatar') +
         link('/soon?p=Inventory', 'inventory', 'Inventory') +
@@ -133,8 +144,15 @@
     $('#menu-backdrop').addEventListener('click', function () { body.classList.remove('menu-open'); });
 
     var gear = $('#btn-gear'), gmenu = $('#gear-menu');
-    gear.addEventListener('click', function (e) { e.stopPropagation(); gmenu.hidden = !gmenu.hidden; });
-    document.addEventListener('click', function () { gmenu.hidden = true; });
+    var pops = [$('#pop-robux'), $('#pop-tix')];
+    function closeAll(except) {
+      gmenu.hidden = except !== gmenu;
+      pops.forEach(function (p) { p.hidden = except !== p; });
+    }
+    gear.addEventListener('click', function (e) { e.stopPropagation(); closeAll(gmenu.hidden ? gmenu : null); });
+    $('#btn-robux').addEventListener('click', function (e) { e.stopPropagation(); closeAll(pops[0].hidden ? pops[0] : null); });
+    $('#btn-tix').addEventListener('click', function (e) { e.stopPropagation(); closeAll(pops[1].hidden ? pops[1] : null); });
+    document.addEventListener('click', function () { closeAll(null); });
     $('#btn-logout').addEventListener('click', R.signOut);
 
     // a busca preenche com ?q= no catálogo
@@ -295,6 +313,30 @@
       $('#p-about').textContent = p.description || '';
       $('#p-wear-img').src = '/assets/noob/noob-full.png';
       R.mountViewer($('#p-viewer'), $('#p-3d'));
+      $('#p-badge').hidden = !mine;
+      $('#p-seeall').href = '/soon?p=Friends';
+
+      /* carrossel "Currently Wearing": 8 miniaturas por página, 2 páginas */
+      var pages_ = [[1, 2, 3, 4, 5, 6, 7, 8], [8, 7, 6, 5, 4, 3, 2, 1]];
+      function showPage(n) {
+        $('#p-cards').innerHTML = pages_[n].map(function (k) {
+          return '<div class="pf-card"><img src="/assets/noob/poses/pose' + k + '.png" alt="" loading="lazy"></div>';
+        }).join('');
+        $$('#p-dots button').forEach(function (d, i) { d.classList.toggle('on', i === n); });
+      }
+      $$('#p-dots button').forEach(function (d, i) { d.addEventListener('click', function () { showPage(i); }); });
+      showPage(0);
+
+      /* menu "..." */
+      var pop = $('#p-pop');
+      $('#p-more').addEventListener('click', function (e) { e.stopPropagation(); pop.hidden = !pop.hidden; });
+      document.addEventListener('click', function () { pop.hidden = true; });
+      $('#p-copy').addEventListener('click', function () {
+        var url = location.origin + '/users/' + p.user_number;
+        function done() { $('#p-copy').textContent = 'Copied!'; setTimeout(function () { $('#p-copy').textContent = 'Copy Profile Link'; pop.hidden = true; }, 900); }
+        if (navigator.clipboard && navigator.clipboard.writeText) navigator.clipboard.writeText(url).then(done, done); else done();
+      });
+      $('#p-report').addEventListener('click', function (e) { e.preventDefault(); });
 
       if (mine) {
         var box = $('#about-edit'), txt = $('#about-text');
@@ -318,7 +360,7 @@
 
       R.friendsOf(p.id).then(function (list) {
         $('#p-friends-n').textContent = list.length;
-        $('#p-friends-title').textContent = 'Friends (' + list.length + ')';
+        $('#p-friends-title span').textContent = 'Friends (' + list.length + ')';
         $('#p-friends').innerHTML = list.length ? list.map(friendHtml).join('') : '<span class="muted">No friends yet.</span>';
       });
     });
@@ -331,6 +373,111 @@
         $('#tab-about').hidden = creations; $('#tab-creations').hidden = !creations;
       });
     });
+  };
+
+  /* ------------------------------ Settings ----------------------------- */
+  pages.settings = function (me) {
+    var settings = (me.settings && typeof me.settings === 'object') ? JSON.parse(JSON.stringify(me.settings)) : {};
+    var msgTimer = 0;
+    function say(text, bad) {
+      var el = $('#st-msg'); el.textContent = text; el.hidden = !text; el.classList.toggle('bad', !!bad);
+      clearTimeout(msgTimer); if (text) msgTimer = setTimeout(function () { el.hidden = true; }, 4500);
+    }
+    function save(patch, ok) {
+      var next = Object.assign({}, settings, patch);
+      return client.from('profiles').update({ settings: next }).eq('id', me.id).then(function (u) {
+        if (u.error) {
+          say('Could not save: ' + u.error.message + '. Run the latest supabase/schema.sql in the Supabase SQL Editor (it adds the "settings" column).', true);
+          return false;
+        }
+        settings = next; me.settings = next; if (ok) say(ok); return true;
+      });
+    }
+
+    /* abas (#security, #social...) */
+    var tabs = $$('#st-tabs button');
+    function openTab(name) {
+      if (!$('#tab-' + name)) name = 'account';
+      tabs.forEach(function (b) { b.classList.toggle('active', b.getAttribute('data-tab') === name); });
+      $$('.st-pane').forEach(function (p) { p.hidden = p.id !== 'tab-' + name; });
+    }
+    tabs.forEach(function (b) {
+      b.addEventListener('click', function () {
+        var n = b.getAttribute('data-tab'); openTab(n);
+        try { history.replaceState(null, '', '#' + n); } catch (e) {}
+      });
+    });
+    openTab(location.hash.replace('#', ''));
+
+    /* Account Info */
+    $('#st-username').textContent = me.username;
+    $('#st-display').textContent = me.username;
+    $('#st-pw-edit').addEventListener('click', function () { $('#st-pw').hidden = !$('#st-pw').hidden; });
+    $('#st-pw-cancel').addEventListener('click', function () { $('#st-pw').hidden = true; $('#st-pw1').value = $('#st-pw2').value = ''; });
+    $('#st-pw-save').addEventListener('click', function () {
+      var a = $('#st-pw1').value, b = $('#st-pw2').value;
+      if (a.length < 8) return say('Password must be at least 8 characters long.', true);
+      if (a.toLowerCase() === String(me.username).toLowerCase()) return say('Password cannot be the same as your username.', true);
+      if (a !== b) return say('Passwords do not match.', true);
+      client.auth.updateUser({ password: a }).then(function (r) {
+        if (r.error) return say('Could not change the password: ' + r.error.message, true);
+        $('#st-pw').hidden = true; $('#st-pw1').value = $('#st-pw2').value = ''; say('Password changed.');
+      });
+    });
+
+    $('#st-about').value = me.description || '';
+    var MN = ['January', 'February', 'March', 'April', 'May', 'June', 'July', 'August', 'September', 'October', 'November', 'December'];
+    var bd = /^(\d{4})-(\d{2})-(\d{2})/.exec(me.birthday || '');
+    if (bd) { $('#st-bm').textContent = MN[Number(bd[2]) - 1]; $('#st-bd').textContent = Number(bd[3]); $('#st-by').textContent = bd[1]; }
+    $('#st-about-save').addEventListener('click', function () {
+      var val = $('#st-about').value.slice(0, 1000);
+      client.from('profiles').update({ description: val }).eq('id', me.id).then(function (u) {
+        if (u.error) return say('Could not save: ' + u.error.message, true);
+        me.description = val; say('Saved.');
+      });
+    });
+
+    var tix = $('#st-tix');
+    function paintTix(on) { tix.classList.toggle('on', on); tix.setAttribute('aria-checked', on ? 'true' : 'false'); }
+    paintTix(showTix(me));
+    tix.addEventListener('click', function () {
+      var on = !tix.classList.contains('on');
+      paintTix(on);
+      var wrap = $('#wrap-tix'); if (wrap) wrap.hidden = !on;
+      try { localStorage.setItem('renovu_show_tix', on ? '1' : '0'); } catch (e) {}
+      save({ show_tix: on });
+    });
+
+    /* Security */
+    $('#st-signout-others').addEventListener('click', function () {
+      client.auth.signOut({ scope: 'others' }).then(function (r) {
+        say(r && r.error ? 'Could not sign out other sessions: ' + r.error.message : 'Signed out of all other sessions.', !!(r && r.error));
+      });
+    });
+
+    /* Social */
+    var soc = settings.socials || {};
+    $$('#st-social input').forEach(function (i) { i.value = soc[i.getAttribute('data-k')] || ''; });
+    $('#st-social-save').addEventListener('click', function () {
+      var o = {}; $$('#st-social input').forEach(function (i) { var v = i.value.trim(); if (v) o[i.getAttribute('data-k')] = v; });
+      save({ socials: o }, 'Saved.');
+    });
+
+    /* Privacy (salvo ao mudar) */
+    var priv = settings.privacy || {};
+    $$('#st-privacy select').forEach(function (sel) {
+      var k = sel.getAttribute('data-k'); if (priv[k]) sel.value = priv[k];
+      sel.addEventListener('change', function () {
+        priv[k] = sel.value; save({ privacy: Object.assign({}, priv) }, 'Saved.');
+      });
+    });
+    var voice = $('#st-voice');
+    function paintVoice() { voice.textContent = settings.voice ? 'Turn Off' : 'Turn On'; }
+    paintVoice();
+    voice.addEventListener('click', function () { save({ voice: !settings.voice }).then(paintVoice); });
+
+    /* Billing */
+    $('#st-robux').textContent = Number(me.robux || 0).toLocaleString();
   };
 
   pages.avatar = function () {

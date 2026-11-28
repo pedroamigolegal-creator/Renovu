@@ -17,6 +17,10 @@ create table if not exists public.profiles (
   constraint username_format check (username ~ '^[A-Za-z0-9_]{3,20}$')
 );
 
+-- Tix e configurações (Settings: redes sociais, privacidade, "Show Tix in Navbar"...)
+alter table public.profiles add column if not exists tix      integer not null default 0;
+alter table public.profiles add column if not exists settings jsonb   not null default '{}'::jsonb;
+
 -- usernames únicos sem diferenciar maiúsculas/minúsculas
 create unique index if not exists profiles_username_lower_idx
   on public.profiles (lower(username));
@@ -108,9 +112,10 @@ grant usage on schema public to anon, authenticated;
 grant select on public.profiles    to authenticated;
 grant select, insert, update, delete on public.friendships to authenticated;
 
--- O usuário só pode editar a descrição. Robux, username etc. ficam protegidos.
+-- O usuário só pode editar a descrição e as próprias configurações.
+-- Robux, Tix, username etc. ficam protegidos.
 revoke update on public.profiles from anon, authenticated;
-grant  update (description) on public.profiles to authenticated;
+grant  update (description, settings) on public.profiles to authenticated;
 
 drop policy if exists "friendships: ver as proprias" on public.friendships;
 create policy "friendships: ver as proprias"

@@ -2,6 +2,13 @@
   "cleanUrls": true,
   "trailingSlash": false,
   "rewrites": [
-    { "source": "/users/:id", "destination": "/users.html" }
+    {
+      "source": "/users/:id",
+      "destination": "/users.html"
+    },
+    {
+      "source": "/my/account",
+      "destination": "/settings.html"
+    }
   ]
 }

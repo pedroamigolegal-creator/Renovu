@@ -1,0 +1,131 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>My Settings - Renovu</title>
+<link rel="icon" href="/favicon.ico" sizes="any">
+<link rel="icon" type="image/png" href="/renovu-icon.png">
+<link rel="apple-touch-icon" href="/apple-touch-icon.png">
+<link href="https://fonts.googleapis.com/css?family=Source+Sans+Pro:300,400,600,700" rel="stylesheet">
+<link rel="stylesheet" href="/assets/css/app.css">
+</head>
+<body data-page="settings" class="bg-grey">
+<div id="shell"></div>
+<main class="page st">
+  <h1 class="title">My Settings</h1>
+  <div class="st-tabs" id="st-tabs" role="tablist">
+    <button type="button" class="active" data-tab="account">Account Info</button><button type="button" data-tab="security">Security</button><button type="button" data-tab="social">Social</button><button type="button" data-tab="privacy">Privacy</button><button type="button" data-tab="decorations">Decorations</button><button type="button" data-tab="billing">Billing</button>
+  </div>
+  <div class="st-msg" id="st-msg" role="status" hidden></div>
+
+  <!-- ===================== Account Info ===================== -->
+  <section id="tab-account" class="st-pane">
+    <h2>Account Info</h2>
+    <div class="st-box st-rows">
+      <div class="st-row"><span><i>Username:</i> <b id="st-username"></b></span><span class="st-edit off" title="Not available yet">Edit</span></div>
+      <div class="st-row"><span><i>Display Name:</i> <b id="st-display"></b></span><span class="st-edit off" title="Not available yet">Edit</span></div>
+      <div class="st-row"><span><i>Password:</i> <b>**********</b></span><button type="button" class="st-edit" id="st-pw-edit">Edit</button></div>
+      <div class="st-pw" id="st-pw" hidden>
+        <input type="password" id="st-pw1" autocomplete="new-password" placeholder="New password (min. 8 characters)">
+        <input type="password" id="st-pw2" autocomplete="new-password" placeholder="Repeat new password">
+        <div class="st-actions"><button type="button" class="st-btn" id="st-pw-save">Save</button><button type="button" class="st-btn ghost" id="st-pw-cancel">Cancel</button></div>
+      </div>
+    </div>
+
+    <h2>Personal</h2>
+    <div class="st-box">
+      <textarea id="st-about" maxlength="1000" aria-label="About" class="st-ta"></textarea>
+      <div class="st-note">Do not provide any details that can be used to identify you outside Renovu.</div>
+      <div class="st-grid3">
+        <div class="st-cell lbl">Birthday</div>
+        <div class="st-cell" id="st-bm"></div>
+        <div class="st-cell" id="st-bd"></div>
+        <div class="st-cell" id="st-by"></div>
+      </div>
+      <div class="st-save"><button type="button" class="st-btn" id="st-about-save">Save</button></div>
+    </div>
+
+    <h2>Customize Your Renovu</h2>
+    <div class="st-box">
+      <div class="st-toggle-row"><span>Advanced Options</span><button type="button" class="st-switch" disabled aria-label="Advanced Options" title="Not available yet"></button></div>
+      <div class="st-grid2"><div class="st-cell lbl">Website Time Frame</div><div class="st-cell">2017</div></div>
+      <div class="st-grid2"><div class="st-cell lbl">Website Theme</div><div class="st-cell">Light Theme</div></div>
+      <div class="st-toggle-row"><span>Show Tix in Navbar</span><button type="button" class="st-switch" id="st-tix" role="switch" aria-checked="false" aria-label="Show Tix in Navbar"></button></div>
+      <div class="st-grid2"><div class="st-cell lbl">Website Color</div><div class="st-cell">Cobalt</div></div>
+      <div class="st-grid2"><div class="st-cell lbl">Stylize Forum Headers</div><div class="st-cell">No</div></div>
+      <div class="st-grid2"><div class="st-cell lbl">Website Font</div><div class="st-cell">Source Sans Pro (2016 &ndash; 2017)</div></div>
+    </div>
+  </section>
+
+  <!-- ===================== Security ===================== -->
+  <section id="tab-security" class="st-pane" hidden>
+    <h2 class="b">2 Step Verification</h2>
+    <div class="st-box st-small">
+      <p>Add an extra layer of protection to your account with 2-Step Verification at login, account recovery, and high-value transactions.</p>
+      <p>IMPORTANT: Don't share your security codes with anyone. This can include things like texting your code, screensharing, etc. Do not change security settings at someone else's request. Renovu will never ask you for your codes or to change settings to prove account ownership.</p>
+    </div>
+    <div class="st-box st-small st-sec">
+      <div class="st-toggle-row line"><span>Authenticator App (Very Secure)</span><button type="button" class="st-switch" disabled aria-label="Authenticator App" title="Not available yet"></button></div>
+      <p>Download an app on your phone to generate unique security codes. Suggested apps include Google Authenticator, Microsoft Authenticator, and Twilio's Authy.</p>
+    </div>
+    <h2 class="b mt">What are Parental Controls?</h2>
+    <p class="st-par">Parental Controls allow parents to choose the correct settings that will control what their child can do on Renovu.</p>
+    <h2 class="b">Parent PIN</h2>
+    <div class="st-box st-small st-sec">
+      <div class="st-toggle-row line"><span>Parent PIN is disabled</span><button type="button" class="st-switch" disabled aria-label="Parent PIN" title="Not available yet"></button></div>
+      <p>When this setting is enabled, the PIN must be provided before changing settings.</p>
+    </div>
+    <h2>Secure Sign Out</h2>
+    <div class="st-box st-small"><div class="st-row"><span>Sign out of all other sessions</span><button type="button" class="st-btn" id="st-signout-others">Sign Out</button></div></div>
+  </section>
+
+  <!-- ===================== Social ===================== -->
+  <section id="tab-social" class="st-pane" hidden>
+    <h2>Social Networks</h2>
+    <div class="st-box st-social" id="st-social">
+      <label>Twitter<input data-k="twitter" placeholder="e.g. @RENOVU" maxlength="64"></label>
+      <label>Discord (can be user id)<input data-k="discord" placeholder="e.g. @RENOVU" maxlength="64"></label>
+      <label>Telegram<input data-k="telegram" placeholder="e.g. @RENOVU" maxlength="64"></label>
+      <label>TikTok<input data-k="tiktok" placeholder="e.g. @RENOVU" maxlength="64"></label>
+      <label>YouTube<input data-k="youtube" placeholder="e.g. @RENOVU" maxlength="64"></label>
+      <label>Twitch<input data-k="twitch" placeholder="e.g. @RENOVU" maxlength="64"></label>
+      <label>GitHub<input data-k="github" placeholder="e.g. @RENOVU" maxlength="64"></label>
+      <label>ROBLOX<input data-k="roblox" placeholder="e.g. @RENOVU" maxlength="64"></label>
+      <div class="st-save"><button type="button" class="st-btn big" id="st-social-save">Save</button></div>
+    </div>
+  </section>
+
+  <!-- ===================== Privacy ===================== -->
+  <section id="tab-privacy" class="st-pane" hidden>
+    <h2>Privacy Setting</h2>
+    <div class="st-box st-privacy" id="st-privacy">
+      <label>Who can message me:<select data-k="message"><option>All Users</option><option>Friends</option><option>No One</option></select></label>
+      <label>Who can Invite me to VIP Servers:<select data-k="vip"><option>All Users</option><option>Friends</option><option>No One</option></select></label>
+      <label>Who can follow me into the game:<select data-k="follow"><option>All Users</option><option>Friends</option><option>No One</option></select></label>
+      <label>Who can see my inventory:<select data-k="inventory"><option>All Users</option><option>Friends</option><option>No One</option></select></label>
+      <label>Who can trade with me:<select data-k="trade"><option>All Users</option><option>Friends</option><option>No One</option></select></label>
+      <label>Trade quality filter:<select data-k="quality"><option>None</option><option>Low</option><option>Medium</option><option>High</option></select></label>
+    </div>
+    <h2>Voice Chat</h2>
+    <div class="st-box st-voice"><div><div class="v1">Enable voice chat</div><div class="v2">Talk to people near you in experiences that support voice. You always start muted.</div></div><button type="button" class="st-btn blue" id="st-voice">Turn On</button></div>
+  </section>
+
+  <!-- ===================== Decorations ===================== -->
+  <section id="tab-decorations" class="st-pane" hidden>
+    <h2>Avatar Decoration</h2>
+    <div class="st-box st-small"><p class="one">Avatar decorations are a High Donator perk ($20+ lifetime). <a href="/soon?p=Donate">Donate</a> to unlock animated frames around your avatar.</p></div>
+  </section>
+
+  <!-- ===================== Billing ===================== -->
+  <section id="tab-billing" class="st-pane" hidden>
+    <h2>Billing</h2>
+    <div class="st-box st-bill"><div>Membership: None</div><div>Robux balance: R$<span id="st-robux">0</span></div><div>You do not have an active membership. &nbsp; <a href="/soon?p=Memberships">View Memberships</a></div></div>
+  </section>
+</main>
+
+<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2.45.4/dist/umd/supabase.min.js"></script>
+<script src="/assets/js/config.js"></script>
+<script src="/assets/js/app.js"></script>
+</body>
+</html>

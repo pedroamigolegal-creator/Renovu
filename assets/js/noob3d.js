@@ -75,7 +75,38 @@
         // a textura deste modelo (export do Sketchfab) vem com o V invertido
         data[i * 8 + 6] = T[i * 2]; data[i * 8 + 7] = 1 - T[i * 2 + 1];
       }
-      return { data: data, indices: new Uint16Array(I), tex: tex };
+      // --- partes do corpo (cabeça, tronco, braços, pernas): cada uma é um componente separado ---
+      var par = []; for (i = 0; i < n; i++) par[i] = i;
+      function find(x) { while (par[x] !== x) { par[x] = par[par[x]]; x = par[x]; } return x; }
+      for (i = 0; i < I.length; i += 3) { par[find(I[i])] = find(I[i + 1]); par[find(I[i + 1])] = find(I[i + 2]); }
+      var comp = {};
+      for (i = 0; i < n; i++) {
+        var r = find(i), c = comp[r] || (comp[r] = { y0: 1e9, y1: -1e9, z0: 1e9, z1: -1e9 });
+        // coordenadas originais do glTF: y = lateral, z = altura
+        c.y0 = Math.min(c.y0, P[i * 3 + 1]); c.y1 = Math.max(c.y1, P[i * 3 + 1]);
+        c.z0 = Math.min(c.z0, P[i * 3 + 2]); c.z1 = Math.max(c.z1, P[i * 3 + 2]);
+      }
+      Object.keys(comp).forEach(function (key) {
+        var c = comp[key], cy = (c.y0 + c.y1) / 2, cz = (c.z0 + c.z1) / 2;
+        c.part = cz > 4.2 ? 'head' : cy < 1 ? 'armP' : cy > 3 ? 'armN' : (c.y1 - c.y0) > 1.5 ? 'torso' : cy < 2 ? 'legP' : 'legN';
+      });
+      var ORDER = ['torso', 'head', 'armP', 'armN', 'legP', 'legN'], tris = [];
+      for (i = 0; i < I.length; i += 3) tris.push({ p: ORDER.indexOf(comp[find(I[i])].part), a: I[i], b: I[i + 1], c: I[i + 2] });
+      tris.sort(function (u, v) { return u.p - v.p; });
+      var idx = new Uint16Array(I.length), parts = {}, t;
+      for (t = 0; t < tris.length; t++) {
+        idx[t * 3] = tris[t].a; idx[t * 3 + 1] = tris[t].b; idx[t * 3 + 2] = tris[t].c;
+        var nm = ORDER[tris[t].p]; (parts[nm] || (parts[nm] = { start: t * 3, count: 0 })).count += 3;
+      }
+      // articulações no sistema do modelo já centralizado (x = profundidade, y = altura, z = lado)
+      var shoulderY = 4 - ctr[1], hipY = 2 - ctr[1];
+      function lat(rawY) { return -rawY - ctr[2]; }       // y lateral do glTF -> z do modelo centralizado
+      var pivots = {
+        torso: [0, hipY, 0], head: [0, shoulderY, 0], body: [0, hipY, 0],
+        armP: [0, shoulderY, lat(1)], armN: [0, shoulderY, lat(3)],
+        legP: [0, hipY, lat(1.5)], legN: [0, hipY, lat(2.5)]
+      };
+      return { data: data, indices: idx, tex: tex, parts: parts, pivots: pivots };
     });
     return modelPromise;
   }
@@ -91,12 +122,16 @@
   }
   function rotX(t) { var c = Math.cos(t), s = Math.sin(t); return new Float32Array([1, 0, 0, 0, 0, c, s, 0, 0, -s, c, 0, 0, 0, 0, 1]); }
   function rotY(t) { var c = Math.cos(t), s = Math.sin(t); return new Float32Array([c, 0, -s, 0, 0, 1, 0, 0, s, 0, c, 0, 0, 0, 0, 1]); }
+  function rotZ(t) { var c = Math.cos(t), s = Math.sin(t); return new Float32Array([c, s, 0, 0, -s, c, 0, 0, 0, 0, 1, 0, 0, 0, 0, 1]); }
   function trans(x, y, z) { return new Float32Array([1, 0, 0, 0, 0, 1, 0, 0, 0, 0, 1, 0, x, y, z, 1]); }
   function persp(fov, asp, n, f) {
     var t = 1 / Math.tan(fov / 2);
     return new Float32Array([t / asp, 0, 0, 0, 0, t, 0, 0, 0, 0, (f + n) / (n - f), -1, 0, 0, 2 * f * n / (n - f), 0]);
   }
   var RAD = Math.PI / 180;
+  // rotação de uma peça em torno da articulação: Rz * Ry * Rx (graus)
+  function limb(a) { return mul(rotZ((a[2] || 0) * RAD), mul(rotY((a[1] || 0) * RAD), rotX((a[0] || 0) * RAD))); }
+  function around(R, p) { return mul(trans(p[0], p[1], p[2]), mul(R, trans(-p[0], -p[1], -p[2]))); }
 
   /* ------------------------------ shaders ----------------------------- */
   var VS = 'attribute vec3 aP;attribute vec3 aN;attribute vec2 aT;' +
@@ -115,7 +150,7 @@
     opts = opts || {};
     var view = {}, base = opts.view || POSE, k;
     for (k in base) view[k] = base[k];
-    var yawTarget = view.yaw, yawCur = view.yaw, raf = 0, dead = false, model = null;
+    var yawTarget = view.yaw, yawCur = view.yaw, raf = 0, dead = false, model = null, pose = opts.pose || null;
     var gl = canvas.getContext('webgl', { antialias: true, alpha: true, premultipliedAlpha: true, preserveDrawingBuffer: !!opts.preserve }) ||
              canvas.getContext('experimental-webgl', { antialias: true, alpha: true, preserveDrawingBuffer: !!opts.preserve });
     if (!gl) return null;
@@ -180,8 +215,8 @@
       var vis = view.size * (opts.heightScale || 1);
       var dist = (vis / 2) / Math.tan(fov / 2);
       var rot = mul(rotX(view.pitch * RAD), rotY((yawCur + 90) * RAD)); // o rosto do modelo aponta para -x
-      var M = mul(rot, trans(0, -view.cy, 0));
-      var MVP = mul(persp(fov, asp, dist * 0.2, dist * 3), mul(trans(0, 0, -dist), M));
+      var cam = mul(trans(0, 0, -dist), mul(rot, trans(0, -view.cy, 0)));
+      var proj = persp(fov, asp, dist * 0.2, dist * 3);
 
       gl.useProgram(prog);
       gl.bindBuffer(gl.ARRAY_BUFFER, buf);
@@ -189,11 +224,20 @@
       gl.enableVertexAttribArray(loc.aP); gl.vertexAttribPointer(loc.aP, 3, gl.FLOAT, false, 32, 0);
       gl.enableVertexAttribArray(loc.aN); gl.vertexAttribPointer(loc.aN, 3, gl.FLOAT, false, 32, 12);
       gl.enableVertexAttribArray(loc.aT); gl.vertexAttribPointer(loc.aT, 2, gl.FLOAT, false, 32, 24);
-      gl.uniformMatrix4fv(loc.uMVP, false, MVP);
-      gl.uniformMatrix4fv(loc.uR, false, rot);
       gl.activeTexture(gl.TEXTURE0); gl.bindTexture(gl.TEXTURE_2D, texture);
       gl.uniform1i(loc.uTex, 0);
-      gl.drawElements(gl.TRIANGLES, count, gl.UNSIGNED_SHORT, 0);
+
+      var body = pose && pose.body ? limb(pose.body) : null;
+      Object.keys(model.parts).forEach(function (name) {
+        var pt = model.parts[name], a = pose && pose[name];
+        var R = a ? limb(a) : null, W = null;
+        if (R) W = around(R, model.pivots[name]);
+        if (body) W = W ? mul(around(body, model.pivots.body), W) : around(body, model.pivots.body);
+        var RR = R && body ? mul(body, R) : (R || body);
+        gl.uniformMatrix4fv(loc.uMVP, false, mul(proj, W ? mul(cam, W) : cam));
+        gl.uniformMatrix4fv(loc.uR, false, RR ? mul(rot, RR) : rot);
+        gl.drawElements(gl.TRIANGLES, pt.count, gl.UNSIGNED_SHORT, pt.start * 2);
+      });
     }
 
     function tick() {
@@ -212,6 +256,7 @@
     };
     api.getYaw = function () { return yawTarget; };
     api.draw = draw;
+    api.setPose = function (p) { pose = p || null; draw(); };
     api.resetPose = function () { yawTarget = base.yaw; yawCur = base.yaw; draw(); };
     api.destroy = function () {
       dead = true; if (raf) cancelAnimationFrame(raf);

@@ -13,22 +13,29 @@
 <body data-page="users" class="bg-profile">
 <div id="shell"></div>
 <main class="page" id="profile">
-  <div class="profile-card">
-    <div class="profile-top">
+ <div class="pf">
+  <div class="pf-head">
+    <div class="pf-avatar">
       <span class="avatar-circle"><img id="p-avatar" src="/assets/noob/noob-head.png" alt=""></span>
-      <div>
-        <h1 id="p-name"></h1>
-        <div class="handle" id="p-handle"></div>
-        <div class="stats">
-          <div class="stat">Friends<b id="p-friends-n">0</b></div>
-          <div class="stat">Followers<b>0</b></div>
-          <div class="stat">Following<b>0</b></div>
-          <div class="stat">RAP<b>0</b></div>
-        </div>
+      <i class="pf-badge" id="p-badge" hidden title="Online"></i>
+    </div>
+    <div class="pf-info">
+      <h1 id="p-name"></h1>
+      <div class="handle" id="p-handle"></div>
+      <div class="stats">
+        <div class="stat">Friends<b id="p-friends-n">0</b></div>
+        <div class="stat">Followers<b>0</b></div>
+        <div class="stat">Following<b>0</b></div>
+        <div class="stat">RAP<b>0</b></div>
       </div>
     </div>
+    <div class="pf-more">
+      <button type="button" id="p-more" aria-label="More" aria-haspopup="true"><i></i><i></i><i></i></button>
+      <div class="pf-pop" id="p-pop" hidden><button type="button" id="p-copy">Copy Profile Link</button></div>
+    </div>
   </div>
-  <div class="ptabs"><button class="active" data-tab="about">About</button><button data-tab="creations">Creations</button></div>
+  <div class="pf-gap"></div>
+  <div class="ptabs"><button class="active" data-tab="about" type="button">About</button><button data-tab="creations" type="button">Creations</button></div>
   <div id="tab-about">
     <h3 class="pbar">About</h3>
     <div class="pbar-wrap">
@@ -37,17 +44,24 @@
         <textarea id="about-ta" maxlength="1000" aria-label="About"></textarea>
         <div class="row"><button class="btn-blue" id="about-save" type="button">Save</button><button class="link-btn" id="about-cancel" type="button">Cancel</button><span id="about-err" style="color:#c00;font-size:13px"></span></div>
       </div>
-      <div class="about-foot"><button class="link-btn" id="about-edit-btn" type="button" hidden>Edit</button><a href="#">Report Abuse</a></div>
+      <div class="about-foot"><button class="link-btn" id="about-edit-btn" type="button" hidden>Edit</button><a href="#" id="p-report">Report Abuse</a></div>
     </div>
-    <h3 class="pbar" style="margin-top:14px">Currently Wearing</h3>
+    <h3 class="pbar pf-section">Currently Wearing</h3>
     <div class="viewer" id="p-viewer"><img id="p-wear-img" src="/assets/noob/noob-full.png" alt="Avatar"><button class="btn-3d" id="p-3d" type="button">3D</button></div>
-    <h3 class="pbar" id="p-friends-title" style="margin-top:14px">Friends (0)</h3>
-    <div class="white-box"><div class="friends-row" id="p-friends"></div></div>
+    <div class="pf-carousel">
+      <div class="pf-cards" id="p-cards"></div>
+      <div class="pf-dots" id="p-dots"><button class="on" type="button" aria-label="Page 1"></button><button type="button" aria-label="Page 2"></button></div>
+    </div>
+    <h3 class="pbar pf-section" id="p-friends-title"><span>Friends (0)</span><a class="btn-see" id="p-seeall" href="#">See All</a></h3>
+    <div class="pf-friends" id="p-friends"></div>
+    <h3 class="pbar pf-section">Collections</h3>
+    <div class="pf-empty"></div>
   </div>
   <div id="tab-creations" hidden>
     <h3 class="pbar">Creations</h3>
     <div class="white-box"><div class="muted">Nothing created yet.</div></div>
   </div>
+ </div>
 </main>
 
 <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2.45.4/dist/umd/supabase.min.js"></script>
