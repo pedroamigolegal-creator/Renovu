@@ -293,7 +293,7 @@ body:not(.bg-grey) .empty-box { background: #e3e3e3; color: #888; }
 }
 
 /* ------------------------- 3D do noob (WebGL) ------------------------ */
-.noob-canvas { position: absolute; left: 0; top: 0; width: 100%; height: 100%; display: block; z-index: 1; cursor: grab; touch-action: pan-y; }
+.noob-canvas { position: absolute; left: 0; top: 0; width: 100%; height: 100%; display: block; z-index: 1; cursor: grab; touch-action: none; -webkit-user-select: none; user-select: none; -webkit-touch-callout: none; }
 .noob-canvas:active { cursor: grabbing; }
 .viewer .btn-3d, .av-preview .btn-3d, .av-preview .btn-adj, .av-preview .rig { z-index: 2; }
 

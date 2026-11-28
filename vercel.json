@@ -4,11 +4,11 @@
   "rewrites": [
     {
       "source": "/users/:id",
-      "destination": "/users.html"
+      "destination": "/users"
     },
     {
       "source": "/my/account",
-      "destination": "/settings.html"
+      "destination": "/settings"
     }
   ]
 }

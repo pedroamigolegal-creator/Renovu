@@ -9,6 +9,14 @@
 <link rel="apple-touch-icon" href="/apple-touch-icon.png">
 <link href="https://fonts.googleapis.com/css?family=Source+Sans+Pro:300,400,600,700" rel="stylesheet">
 <link rel="stylesheet" href="/assets/css/app.css">
+<script>
+/* Plano B caso o servidor não aplique os rewrites: /users/22 -> /users?id=22, /my/account -> /settings */
+(function () {
+  var p = location.pathname, m = p.match(/^\/users\/(\d+)\/?$/);
+  if (m) { location.replace('/users?id=' + m[1]); return; }
+  if (/^\/my\/account\/?$/i.test(p)) location.replace('/settings' + location.hash);
+})();
+</script>
 </head>
 <body class="ready bg-white">
 <header class="topbar">

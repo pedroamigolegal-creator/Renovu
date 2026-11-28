@@ -15,6 +15,7 @@
   var R = window.Renovu = { cfg: cfg, client: client, configured: configured, me: null };
 
   /* ---------------------------- utilidades ---------------------------- */
+  R.userUrl = function (n) { return '/users?id=' + n; };   // funciona mesmo sem rewrite; a barra vira /users/N depois de carregar
   R.emailFor = function (username) {
     return String(username).trim().toLowerCase() + '@' + (cfg.EMAIL_DOMAIN || 'renovu.app');
   };
@@ -105,7 +106,7 @@
             '<button class="icon-btn" id="btn-gear" aria-label="Settings" aria-haspopup="true">' + svg('gear') + '</button>' +
           '</div>' +
           '<div class="menu" id="gear-menu" hidden>' +
-            '<a href="/my/account">Settings</a>' +
+            '<a href="/settings">Settings</a>' +
             '<button type="button" id="btn-logout">Logout</button>' +
           '</div>' +
         '</div>' +
@@ -120,7 +121,7 @@
       '<aside class="sidebar" id="sidebar">' +
         '<div class="s-name">' + uname + '</div>' +
         link('/home', 'home', 'Home') +
-        link('/users/' + me.user_number, 'profile', 'Profile') +
+        link(R.userUrl(me.user_number), 'profile', 'Profile') +
         link('/messages', 'inbox', 'Messages') +
         link('/soon?p=Friends', 'friends', 'Friends') +
         link('/avatar', 'avatar', 'Avatar') +
@@ -244,7 +245,7 @@
     });
   };
   function friendHtml(f) {
-    return '<a class="friend" href="/users/' + f.user_number + '">' +
+    return '<a class="friend" href="' + R.userUrl(f.user_number) + '">' +
       '<span class="avatar-circle mid"><img src="/assets/noob/noob-head.png" alt=""></span>' +
       '<span>' + R.esc(f.username) + '</span></a>';
   }
@@ -306,6 +307,7 @@
         return;
       }
       var p = r.data, mine = p.id === me.id;
+      try { if (!m) history.replaceState(null, '', '/users/' + p.user_number); } catch (e) {}   // URL bonita
       document.title = p.username + ' - Renovu';
       $('#p-avatar').src = '/assets/noob/noob-head.png';
       $('#p-name').textContent = p.username;
