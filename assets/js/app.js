@@ -318,17 +318,6 @@
       $('#p-badge').hidden = !mine;
       $('#p-seeall').href = '/soon?p=Friends';
 
-      /* carrossel "Currently Wearing": 8 miniaturas por página, 2 páginas */
-      var pages_ = [[1, 2, 3, 4, 5, 6, 7, 8], [8, 7, 6, 5, 4, 3, 2, 1]];
-      function showPage(n) {
-        $('#p-cards').innerHTML = pages_[n].map(function (k) {
-          return '<div class="pf-card"><img src="/assets/noob/poses/pose' + k + '.png" alt="" loading="lazy"></div>';
-        }).join('');
-        $$('#p-dots button').forEach(function (d, i) { d.classList.toggle('on', i === n); });
-      }
-      $$('#p-dots button').forEach(function (d, i) { d.addEventListener('click', function () { showPage(i); }); });
-      showPage(0);
-
       /* menu "..." */
       var pop = $('#p-pop');
       $('#p-more').addEventListener('click', function (e) { e.stopPropagation(); pop.hidden = !pop.hidden; });

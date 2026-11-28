@@ -202,13 +202,6 @@ body:not(.bg-grey) .empty-box { background: #e3e3e3; color: #888; }
 .pf .viewer { height: 329px; }
 .pf .viewer .btn-3d { top: 14px; right: 14px; width: 40px; height: 36px; padding: 0; font-size: 17px; border: 1px solid #bdbebe; border-radius: 3px; color: #393b3d; }
 .pf .viewer .btn-3d.active { background: #00a2ff; border-color: #00a2ff; color: #fff; }
-.pf-carousel { background: #3b759a; padding: 30px 28px 0; margin-top: 3px; }
-.pf-cards { display: grid; grid-template-columns: repeat(4, 1fr); gap: 9px 9px; }
-.pf-card { background: #fff; border-radius: 3px; aspect-ratio: 1 / 1; display: flex; align-items: center; justify-content: center; overflow: hidden; }
-.pf-card img { width: 100%; height: 100%; object-fit: contain; display: block; }
-.pf-dots { display: flex; justify-content: center; gap: 14px; padding: 22px 0 22px; }
-.pf-dots button { width: 12px; height: 12px; border-radius: 50%; border: 2px solid #fff; background: transparent; padding: 0; cursor: pointer; }
-.pf-dots button.on { background: #fff; }
 .pf-section { margin-top: 4px; }
 .pf-section .pbar { padding-left: 0; }
 .pf .pbar > span { padding-left: 0; }
@@ -332,8 +325,6 @@ body.bg-white { background: #fff; }
   .pf .stats { margin-top: 12px; }
   .pf .stat { width: auto; flex: 1 1 0; font-size: 12px; min-width: 0; }
   .pf .stat b { font-size: 18px; margin-top: 3px; }
-  .pf-carousel { padding: 14px 12px 0; }
-  .pf-cards { gap: 6px; }
   .pf-friends { padding: 12px 8px; }
   .pf-friends .friend { width: 88px; font-size: 15px; }
   .pf-friends .friend .avatar-circle { width: 76px; height: 76px; margin: 0 6px 6px; }
